@@ -1,99 +1,60 @@
 <template>
     <div class="container" >
-        <div v-for="(comento_list,index) in comento_list" :key="index">    
-            <div v-if="index === 3">
-                <div class="card">
+        <div v-for="(comento_list,index) in comento_list" :key="index">
+            <!-- spone --> 
+            <div v-for="(comento_ad_list, indexAds) in comento_ad_list" :key="indexAds">
+                <!-- {{indexAds}} -->
+                <div class="card" v-if="index != 0 && index%3 == 0 && indexAds == index">
                     <div class="card-body" style="margin-bottom: 20px; padding:10px 10px 0px 15px;">
                         Sponsored
                     </div>
-                    <div class="card mb-3 flex-row" style=" padding:10px; border:none">
+                    <div class="card mb-3 flex-row" style=" padding:10px; border:none" > <!--v-for="index_img in 5" :key="index_img"-->
                             <img v-on:focus="addAdImgIndex" :src="ad_image[0]" width="200px" height="200px" alt="Sponsored image" class="card-img-left">
                         <div class="card-body">
                             <h6 class="card-subtitle text-muted mb-2">
-                                <!-- 테스트 주석처리     -->
-                                {{comento_ad_list[index].title}} <!--광고제목 title-->
+                                {{comento_ad_list.title}} <!--광고제목 title-->
                             </h6> 
                             <p class="card-text txt_post">
-                                <!-- 테스트 주석처리 -->
-                                {{comento_ad_list[index].contents}} <!--광고내용 contents-->
+                                {{comento_ad_list.contents}} <!--광고내용 contents-->
                             </p>     
-                            <!-- 
-                                <div hidden v-if="index===3">{{adImgIndex++}}</div>
-                                <div hidden v-else-if="adImgIndex>4">{{adImgIndex=0}}</div>
-                                <div hidden else></div>  
-                            -->
                         </div>
                     </div>
                 </div>
             </div>
-        
-            <div v-else-if="index === 7" >
-                <div class="card">
-                    <div class="card-body target" style="margin-bottom: 20px; padding:10px 10px 0px 15px;">
-                        Sponsored
-                    </div>
-                    <div class="card mb-3 flex-row" style=" padding:10px; border:none">
-                            <img v-on:addAdImgIndex="addAdImgIndex" :src="ad_image[index/4]" width="200px" height="200px" alt="Sponsored image" class="card-img-left">
-                        <div class="card-body">
-                        
-                            <h6 class="card-subtitle text-muted mb-2">
-                                <!-- 테스트 주석처리 -->
-                                {{comento_ad_list[index].title}} <!--광고제목 title-->
-                            </h6> 
-                            <p class="card-text txt_post">
-                                <!-- 테스트 주석처리 -->
-                                {{comento_ad_list[index].contents}} <!--광고내용 contents-->
-                            </p>    
-                            <!-- 
-                            <div hidden v-if="index===7">{{adImgIndex++}}</div>
-                            <div hidden v-else-if="adImgIndex>4">{{adImgIndex=0}}</div> 
-                            -->
+            <!-- nomal -->
+            <router-link tag="div" class="card-header" :to='"/detail/"+index'>
+                <div class="card text-left" >
+                    <div class="card-header">
+                        <div id="Categorybar">
+                            <span class="card-title">
+                                {{comento_category[$store.state.value_modal-1].name}} <!--카데고리명 name, 카테코리번호 category_no랑 매칭 -->
+                            </span> 
+                            <span class="card-title" align="right">
+                                {{comento_list.no}} <!--글번호 no-->
+                            </span> 
                         </div>
                     </div>
+                    <div class="card-body" style="text-overflow: ellipsis;">
+                        <span class="card-link">
+                            {{comento_list.email}} <!--이메일 email-->
+                        </span> 
+                        <span class="card-link">
+                            {{comento_list.updated_at}} <!--작성일 updated_at-->
+                        </span> 
+                        <br>
+                        <br>
+                        <h6 class="card-subtitle text-muted mb-2">
+                            {{comento_list.title}} <!--제목 title-->
+                        </h6> 
+                        <p class="card-text target">
+                            {{comento_list.contents}} <!--내용 contents-->
+                        </p>
+                    </div>        
                 </div>
-            </div>
-            <div v-else>
-                <router-link tag="div" class="card-header" :to='"/detail/"+index'>
-                    <div class="card text-left" >
-                        <div class="card-header">
-                            <div id="Categorybar">
-                                <span class="card-title">
-                                    <!-- 테스트 주석처리 -->
-                                    {{comento_category[$store.state.value_modal-1].name}} <!--카데고리명 name, 카테코리번호 category_no랑 매칭 -->
-                                </span> 
-                                <span class="card-title" align="right">
-                                    <!-- 테스트 주석처리 -->
-                                    {{comento_list.no}} <!--글번호 no-->
-                                </span> 
-                            </div>
-                        </div>
-                        <div class="card-body" style="text-overflow: ellipsis;">
-                            <span class="card-link">
-                                <!-- 테스트 주석처리 -->
-                                {{comento_list.email}} <!--이메일 email-->
-                            </span> 
-                            <span class="card-link">
-                                <!-- 테스트 주석처리 -->
-                                {{comento_list.updated_at}} <!--작성일 updated_at-->
-                            </span> 
-                            <br>
-                            <br>
-                            <h6 class="card-subtitle text-muted mb-2">
-                                <!-- 테스트 주석처리 -->
-                                {{comento_list.title}} <!--제목 title-->
-                            </h6> 
-                                <p class="card-text target">
-                                    <!-- 테스트 주석처리 -->
-                                    {{comento_list.contents}} <!--내용 contents-->
-                                </p>
-                        </div>        
-                    </div>
-                </router-link>
-            </div>
-
-        </div> <!--/ v-for -->
-                <!--스크롤링 시작.-->
-            <div>
+            </router-link> 
+        </div> <!--/ v-for -->  
+        <!-- 스크롤링 시작.-->
+            <!-- <div>
                 <div v-if="list_items.length === 0" class="loading">
                     Loading...
                 </div>
@@ -106,29 +67,31 @@
                         <h3 class="bright">Food Pairings</h3>
                     </div>
                 </div>
-            </div>
+            </div> -->
     </div> <!--/ container-->
 </template> <!-- END -->
 
 
 <script>
+  var pageNumber = 1;
+  var adPageNumber = 1;
+
 export default {  
     data : function(){
         return{
- //           select_align: 'null' ,
             comento_category: [],
             comento_list: [],
             comento_ad_list:[],
+            adImgIndex: '0', //광고 이미지 Count
+            bottom: false,
+            list_items: [],
             ad_image:[
             'http://comento.cafe24.com/public/images/test1.jpg',
             'http://comento.cafe24.com/public/images/test2.jpg',
             'http://comento.cafe24.com/public/images/test3.jpg',
             'http://comento.cafe24.com/public/images/test4.jpg',
             'http://comento.cafe24.com/public/images/test5.jpg',
-            ],
-            adImgIndex: '0', //광고 이미지 Count
-            bottom: false,
-            list_items: []    
+            ],    
         }
     },
     methods:{
@@ -147,79 +110,128 @@ export default {
                 adImgIndex++;
             }
         },
-        addList: function() {
-            this.$http.get('https://comento.cafe24.com/request.php?page=2&ord=asc').then(response => {
-                console.log("per은" + response.data.per);
-                var api = [];
-                for(var i=0;i< response.data.per;i++) { 
-                    api.push(response.data.list[i]);
-                }
-                var apiInfo = {
-                    title: api.title,
-                    no: api.no,
-                    email: api.email,
-                    updated_at: api.updated_at,
-                    contents: api.contents,
-                    category_no: api.category_no
+        addList: function(pageNumber) {
+            if(this.bottomVisible()){
+                pageNumber++;
+            
+                this.$http.get('https://comento.cafe24.com/request.php?page='+pageNumber+'&ord='+this.$store.state.selected)
+                .then((response) => {
+                    var api = [];
+                    for(var i=0;i< response.data.per;i++) { 
+                        var tempFetchList = response.data.list[i];
+                        var tempList = {
+                        category_no: tempFetchList.category_no,
+                        contents: tempFetchList.contents,
+                        email: tempFetchList.email,
+                        no: tempFetchList.no,
+                        title: tempFetchList.title,
+                        updated_at: tempFetchList.updated_at,
+                        user_no: tempFetchList.user_no,
+                    };
+                    this.comento_list.push(tempList);
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        },
+        addAdList(adPageNumber){
+            adPageNumber++
+
+            this.$http.get('http://comento.cafe24.com/ads.php?page=' + adPageNumber)
+            .then((response) => {
+                for(var i=0; i<result.data.per; i++) {
+                var tempFetchAds = result.data.list[i]
+                var tempAdList = {
+                    no: tempFetchAds.no,
+                    title: tempFetchAds.title,
+                    contents: tempFetchAds.contents,
+                    img: tempFetchAds.img,
+                    created_at: tempFetchAds.created_at,
+                    updated_at: tempFetchAds.updated_at
                 };
-                this.list_items.push(apiInfo);
-                if(this.bottomVisible()) {
-                    this.addList();  
+                this.comento_ad_list.push(tempAdList);
                 }
-            })
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        fetch_list(){
+            // var orderSet = this.$store.state.selected;
+            const baseURL1 = 'https://comento.cafe24.com/request.php?page=1&ord=asc'
+            this.$http.get(baseURL1)  // MAIN_LIST정보 불러오기 category는 1,2,3까지
+                //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
+                .then((response) => {
+                    this.comento_list = response.data.list;
+                    console.log('호출후 this-comento_list',this.comento_list);
+                })
+                //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        fetch_category(){
+            const baseURL2 = 'https://comento.cafe24.com/category.php';
+            this.$http.get(baseURL2)  // CATEGORY_LIST 불러오기 (apple,banana,coconut)
+                //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
+                .then((response) => {
+                    this.comento_category = response.data.list;
+                    console.log('호출후 this-name',this.comento_category);
+                })
+                //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
+                .catch((error) => {
+                    console.log(error);
+                });     
+        },
+        fetch_ad_list(){
+            const baseURL3 = 'https://comento.cafe24.com/ads.php?page=1';
+            this.$http.get(baseURL3)  // ADVERTISE_LIST 불러오기 
+                //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
+                .then((response) => {
+                    this.comento_ad_list = response.data.list;
+                    console.log('호출후 this-AD',this.comento_ad_list);
+                })
+                //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
+                .catch((error) => {
+                    console.log(error);
+                });  
+        }
+    },
+    computed:{
+        changeAlign: function(){ 
+            return this.$store.getters.changeAlign 
         }
     },
     watch: {
-        bottom: function(bottom) {
+        bottom: function(bottom){
             if(bottom) {
-              this.addList();
+              this.addList(pageNumber);
+              this.addAdList(adPageNumber);
             }
-        }
+        },
+        changeAlign: function(){
+            console.log("정렬이 변경됨.");
+            const baseURL1 = 'https://comento.cafe24.com/request.php?page=1&ord='+ this.$store.state.selected;
+            this.$http.get(baseURL1)  // MAIN_LIST정보 불러오기 category는 1,2,3까지
+                //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
+                .then((response) => {
+                    this.comento_list = response.data.list;
+                    console.log('호출후 this-comento_list',this.comento_list);
+                })
+                //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
     },
     created: function(){
-        var vm = this;
         window.addEventListener('scroll', () => {
             this.bottom = this.bottomVisible();
         });
-        this.addList();
-
-        console.log('호출 전 this',vm);
-        var baseURL1 = 'https://comento.cafe24.com/request.php?page=1&ord=' + this.$store.state.selected;
-        const baseURL2 = 'https://comento.cafe24.com/category.php';
-        const baseURL3 = 'https://comento.cafe24.com/ads.php?page=1';
-
-        this.$http.get(baseURL1)  // MAIN_LIST정보 불러오기 category는 1,2,3까지
-            //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
-            .then((response) => {
-                vm.comento_list = response.data.list;
-                console.log('호출후 this-comento_list',vm.comento_list);
-            })
-            //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
-            .catch((error) => {
-                console.log(error);
-            });
-
-        this.$http.get(baseURL2)  // CATEGORY_LIST 불러오기 (apple,banana,coconut)
-            //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
-            .then((response) => {
-                vm.comento_category = response.data.list;
-                console.log('호출후 this-name',vm.comento_category);
-            })
-            //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
-            .catch((error) => {
-                console.log(error);
-            });     
-
-        this.$http.get(baseURL3)  // ADVERTISE_LIST 불러오기 
-            //then -> 데이터 요청이 성공했을 떄 실행할 로직.(성공케이스)
-            .then((response) => {
-                vm.comento_ad_list = response.data.list;
-                console.log('호출후 this-AD',vm.comento_ad_list);
-            })
-            //catch -> 데이터 요청이 실패했을 떄 실행할 로직(에러케이스)
-            .catch((error) => {
-                console.log(error);
-            });  
+        console.log('호출 전 this',this);
+        this.fetch_list();
+        this.fetch_category();
+        this.fetch_ad_list();
     },
 }
 </script>

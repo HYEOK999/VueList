@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state:{ // data
+    state: { // data
         token: '',
         value_modal: '1',
         selected: ''
@@ -20,6 +20,10 @@ export default new Vuex.Store({
             state.selected = selected;
         },
     },
+    getters: { //computed
+        changeAlign(state) {
+            return state.selected}
+    }
     //getters , actions
 })
 
