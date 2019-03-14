@@ -1,9 +1,14 @@
 <template>
     <div class="container" >
+        <div v-if="comento_list.length === 0">
+            <div class="text-center">
+                <b-spinner variant="primary" label="Text Centered" />
+            </div> <!--로딩-->
+        </div>
         <div v-for="(comento_list,index) in comento_list" :key="index">
-            <!-- spone --> 
+            <!-- 광고글 --> 
             <div v-for="(comento_ad_list, indexAds) in comento_ad_list" :key="indexAds">
-                <!-- {{indexAds}} -->
+                <!--test입니다. {{indexAds}} -->
                 <div class="card" v-if="index != 0 && index%3 == 0 && indexAds == index">
                     <div class="card-body" style="margin-bottom: 20px; padding:10px 10px 0px 15px;">
                         Sponsored
@@ -21,54 +26,41 @@
                     </div>
                 </div>
             </div>
-            <!-- nomal -->
-            <router-link tag="div" class="card-header" :to='"/detail/"+index'>
-                <div class="card text-left" >
-                    <div class="card-header">
-                        <div id="Categorybar">
-                            <span class="card-title">
-                                {{comento_category[$store.state.value_modal-1].name}} <!--카데고리명 name, 카테코리번호 category_no랑 매칭 -->
-                            </span> 
-                            <span class="card-title" align="right">
-                                {{comento_list.no}} <!--글번호 no-->
-                            </span> 
+            <!-- 게시글 -->
+            <div>
+                <router-link tag="span" class="card-header ax" :to='"/detail/"+index'>
+                    <div class="card text-left" >
+                        <div class="card-header">
+                            <div id="Categorybar">
+                                <span class="card-title">
+                                    {{comento_category[$store.state.value_modal-1].name}} <!--카데고리명 name, 카테코리번호 category_no랑 매칭 -->
+                                </span> 
+                                <span class="card-title" align="right">
+                                    {{comento_list.no}} <!--글번호 no-->
+                                </span> 
+                            </div>
                         </div>
+                        <div class="card-body" style="text-overflow: ellipsis;">
+                            <span class="card-link">
+                                {{comento_list.email}} <!--이메일 email-->
+                            </span> 
+                            <span class="card-link">
+                                {{comento_list.updated_at}} <!--작성일 updated_at-->
+                            </span> 
+                            <br>
+                            <br>
+                            <h6 class="card-subtitle text-muted mb-2">
+                                {{comento_list.title}} <!--제목 title-->
+                            </h6> 
+                            <p class="card-text target">
+                                {{comento_list.contents}} <!--내용 contents-->
+                            </p>
+                        </div>        
                     </div>
-                    <div class="card-body" style="text-overflow: ellipsis;">
-                        <span class="card-link">
-                            {{comento_list.email}} <!--이메일 email-->
-                        </span> 
-                        <span class="card-link">
-                            {{comento_list.updated_at}} <!--작성일 updated_at-->
-                        </span> 
-                        <br>
-                        <br>
-                        <h6 class="card-subtitle text-muted mb-2">
-                            {{comento_list.title}} <!--제목 title-->
-                        </h6> 
-                        <p class="card-text target">
-                            {{comento_list.contents}} <!--내용 contents-->
-                        </p>
-                    </div>        
-                </div>
-            </router-link> 
+                </router-link> 
+            </div>
         </div> <!--/ v-for -->  
-        <!-- 스크롤링 시작.-->
-            <!-- <div>
-                <div v-if="list_items.length === 0" class="loading">
-                    Loading...
-                </div>
-                <div v-for="(list,index) in list_items" :key="index" class="beer-contain">
-                    <div class="beer-info">
-                        <h2>{{list.title}}</h2>
-                        <p class="bright">{{list.no}}</p>
-                        <p><span class="bright">Description:</span> {{list.email}}</p>
-                        <p><span class="bright">Tips:</span> {{list.updated_at}}</p>
-                        <h3 class="bright">Food Pairings</h3>
-                    </div>
-                </div>
-            </div> -->
-    </div> <!--/ container-->
+    </div> <!--/ container--> 
 </template> <!-- END -->
 
 
@@ -86,21 +78,21 @@ export default {
             bottom: false,
             list_items: [],
             ad_image:[
-            'http://comento.cafe24.com/public/images/test1.jpg',
-            'http://comento.cafe24.com/public/images/test2.jpg',
-            'http://comento.cafe24.com/public/images/test3.jpg',
-            'http://comento.cafe24.com/public/images/test4.jpg',
-            'http://comento.cafe24.com/public/images/test5.jpg',
+                'http://comento.cafe24.com/public/images/test1.jpg',
+                'http://comento.cafe24.com/public/images/test2.jpg',
+                'http://comento.cafe24.com/public/images/test3.jpg',
+                'http://comento.cafe24.com/public/images/test4.jpg',
+                'http://comento.cafe24.com/public/images/test5.jpg',
             ],    
         }
     },
     methods:{
         bottomVisible: function() {
-            var scrollY = window.pageYOffset;
-            var visible = document.documentElement.clientHeight;
-            var pageHeight = document.documentElement.scrollHeight;
-            var bottomOfPage = visible + scrollY >= pageHeight;
-            return bottomOfPage || pageHeight < visible;
+            const scrollY = window.scrollY
+            const visible = document.documentElement.clientHeight
+            const pageHeight = document.documentElement.scrollHeight
+            const bottomOfPage = visible + scrollY >= pageHeight
+            return bottomOfPage || pageHeight < visible
         },
         addAdImgIndex: function() {
             if(adImgIndex>4){
@@ -111,24 +103,22 @@ export default {
             }
         },
         addList: function(pageNumber) {
+            console.log("PAGE : "+pageNumber);
             if(this.bottomVisible()){
-                pageNumber++;
-            
                 this.$http.get('https://comento.cafe24.com/request.php?page='+pageNumber+'&ord='+this.$store.state.selected)
                 .then((response) => {
-                    var api = [];
                     for(var i=0;i< response.data.per;i++) { 
                         var tempFetchList = response.data.list[i];
                         var tempList = {
-                        category_no: tempFetchList.category_no,
-                        contents: tempFetchList.contents,
-                        email: tempFetchList.email,
-                        no: tempFetchList.no,
-                        title: tempFetchList.title,
-                        updated_at: tempFetchList.updated_at,
-                        user_no: tempFetchList.user_no,
-                    };
-                    this.comento_list.push(tempList);
+                            category_no: tempFetchList.category_no,
+                            contents: tempFetchList.contents,
+                            email: tempFetchList.email,
+                            no: tempFetchList.no,
+                            title: tempFetchList.title,
+                            updated_at: tempFetchList.updated_at,
+                            user_no: tempFetchList.user_no,
+                         };
+                        this.comento_list.push(tempList);
                     }
                 }).catch((err) => {
                     console.log(err);
@@ -136,12 +126,11 @@ export default {
             }
         },
         addAdList(adPageNumber){
-            adPageNumber++
-
+            console.log("ADPAGE : "+adPageNumber);
             this.$http.get('http://comento.cafe24.com/ads.php?page=' + adPageNumber)
             .then((response) => {
-                for(var i=0; i<result.data.per; i++) {
-                var tempFetchAds = result.data.list[i]
+                for(var i=0; i<response.data.per; i++) {
+                var tempFetchAds = response.data.list[i]
                 var tempAdList = {
                     no: tempFetchAds.no,
                     title: tempFetchAds.title,
@@ -204,9 +193,12 @@ export default {
     },
     watch: {
         bottom: function(bottom){
+            console.log("bottom 값"  + bottom);
             if(bottom) {
-              this.addList(pageNumber);
-              this.addAdList(adPageNumber);
+                pageNumber++;
+                adPageNumber++;
+                this.addList(pageNumber);
+                this.addAdList(adPageNumber);
             }
         },
         changeAlign: function(){

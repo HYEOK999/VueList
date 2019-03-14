@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-link to="/"> Test home</router-link>
+    <router-link to="/">List home</router-link>
     <main-header-view></main-header-view>
     <router-view></router-view>  
     <!-- <main-list-view v-bind:propsdata="select_align"></main-list-view>  -->
