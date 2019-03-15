@@ -18,7 +18,9 @@ npm run build
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 npm 설치된 전역 모듈 확인
+
 npm ls -g --depth=0
+
 
 npm i vue(근데 전역 설치되있음)
 vue init webpack-simple 프로젝트명
