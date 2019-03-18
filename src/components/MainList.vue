@@ -1,7 +1,7 @@
 <template>
     <div class="container" >
         <div v-if="comento_list.length === 0">
-            <div class="text-center">
+            <div class="text-center"> <!--로딩-->
                 <b-spinner variant="primary" label="Text Centered" />
             </div> <!--로딩-->
         </div>
@@ -27,8 +27,8 @@
                 </div>
             </div>
             <!-- 게시글 -->
-            <div>
-                <router-link tag="span" class="card-header ax" :to='"/detail/"+index'>
+            <div @click="moveToDetailPage(comento_list,index)">
+                <!-- <router-link tag="span" class="card-header ax" :to='"/detail/"+index'> -->
                     <div class="card text-left" >
                         <div class="card-header">
                             <div id="Categorybar">
@@ -57,7 +57,7 @@
                             </p>
                         </div>        
                     </div>
-                </router-link> 
+                <!-- </router-link>  -->
             </div>
         </div> <!--/ v-for -->  
     </div> <!--/ container--> 
@@ -184,7 +184,15 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });  
-        }
+        },
+        moveToDetailPage(obj,index) {
+            this.$router.push({
+                path: `/detail/${index}`,
+                params: {
+                    post_number: obj.no
+                }
+            })
+        },
     },
     computed:{
         changeAlign: function(){ 

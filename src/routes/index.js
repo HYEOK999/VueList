@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import DetailPageView from '../views/DetailPageView'
 import MainListView from '../views/MainListView';
+import DetailList from '../components/DetailList';
 //import store from '../store/index.js';
 //import LoginView from '../views/LoginView.vue';
 
@@ -32,6 +33,11 @@ export const router = new VueRouter({
             path: '/detail/:id', 
             component:DetailPageView, 
             name:'detail'
+        },
+        {
+            path: '/tail',
+            component:DetailList,
+            name:'tail'
         }
     ]
 })

@@ -9,30 +9,30 @@
                     <!-- {{comento_category[value_modal-1].name}} -->
                 </span> 
                 <span class="card-title" align="right">
-                    테스트 주석처리
-                    <!-- {{comento_list.no}} -->
+                    <!-- 테스트 주석처리 -->
+                    {{detail_list.no}}
                 </span> <!--글번호 no-->
             </div>
         </div>
         <div class="card-body" style="text-overflow: ellipsis;"><!----><!---->
             <span class="card-link">
-                테스트 주석처리
-                <!-- {{comento_list.email}} -->
+                <!-- 테스트 주석처리 -->
+                {{detail_list.email}}
             </span> <!--이메일 email-->
             <span class="card-link">
-                테스트 주석처리
-                <!-- {{comento_list.updated_at}} -->
+                <!-- 테스트 주석처리 -->
+                {{detail_list.updated_at}}
             </span> <!--작성일 updated_at-->
             <br>
             <br>
             <h6 class="card-subtitle text-muted mb-2">
-                테스트 주석처리
-                <!-- {{comento_list.title}} -->
+                <!-- 테스트 주석처리 -->
+                {{detail_list.title}}
             </h6> <!--제목 title-->
                 <p class="card-text target">
                     <!--내용 contents-->
-                    테스트 주석처리
-                    <!-- {{comento_list.contents}}  -->
+                    <!-- 테스트 주석처리 -->
+                    {{detail_list.contents}} 
                 </p>
         </div>        
     </div>
@@ -71,6 +71,22 @@
           <b-button size="sm" variant="light" @click="doDisplay()">나중에 하기</b-button>
       </div>
     </b-modal>
+    <div class="modal" id="join-induce-modal-footer-wrap">
+      <div class="modal-content join-induce-footer-modal">
+        <div class="modal-body">
+          <div class="join-induce-footer-box">
+            <div class="join-induce-footer-ment">
+              <p>지금 가입하면 꿈꾸던 기업에 재직 중인 현직자와 <span class="red-span">익명</span>으로 대화할 수 있습니다.</p>
+            </div>
+            <div class="join-btn-footer-wrap">
+              <button class="sns-join-btn">SNS계정으로 빠른 회원가입</button>
+              <button class="or">또는</button>
+              <button class="login-btn">로그인</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="footer">
           <p>지금 가입하면 꿈 꾸던 기업에 재직 중인 현직자와 <span style="color:red; font-weight: bold;">익명</span>으로 대화 할 수 있습니다.</p>
@@ -96,11 +112,14 @@ export default {
         bodyBgVariant: 'light',
         bodyTextVariant: 'dark',
         footerBgVariant: 'light',
-        footerTextVariant: 'dark'
+        footerTextVariant: 'dark',
+        post_number: 1,
+        detail_list: [],
       }
     },
   created() {
       this.show = true;
+      this.fetchDetailList();
   },
   methods: {
       doDisplay(){
@@ -111,7 +130,18 @@ export default {
         }else{
             con.style.display = 'none';
         }
-      }
+      },
+      fetchDetailList() {
+        console.log(this.post_number);
+        const detailURL = 'http://comento.cafe24.com/detail.php?req_no=' + this.post_number
+        this.$http.get(detailURL)
+        .then((response) => {
+          this.detail_list = response.data.detail.article
+          console.log(this.detail_list);
+        }).catch((err) => {
+          console.log("에러입니다." + err)
+        })
+      }      
   }
 }
 </script>
