@@ -27,7 +27,7 @@
                 </div>
             </div>
             <!-- 게시글 -->
-            <div @click="moveToDetailPage(comento_list,index)">
+            <div @click="moveToDetailPage(comento_list)">
                 <!-- <router-link tag="span" class="card-header ax" :to='"/detail/"+index'> -->
                     <div class="card text-left" >
                         <div class="card-header">
@@ -185,9 +185,9 @@ export default {
                     console.log(error);
                 });  
         },
-        moveToDetailPage(obj,index) {
+        moveToDetailPage(obj) {
             this.$router.push({
-                path: `/detail/${index}`,
+                path: `/detail/${obj.no}`,
                 params: {
                     post_number: obj.no
                 }

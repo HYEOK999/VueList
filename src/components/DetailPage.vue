@@ -5,8 +5,9 @@
             <div id="Categorybar">
                             <!--카데고리명 name, 카테코리번호 category_no랑 매칭 -->
                 <span class="card-title">
-                    테스트 주석처리
-                    <!-- {{comento_category[value_modal-1].name}} -->
+                    <!-- 테스트 주석처리 -->
+                    {{detail_category[detail_list.category_no].name}}
+                    <!-- {{detail_category[$store.state.value_modal-1].name}} -->
                 </span> 
                 <span class="card-title" align="right">
                     <!-- 테스트 주석처리 -->
@@ -113,35 +114,46 @@ export default {
         bodyTextVariant: 'dark',
         footerBgVariant: 'light',
         footerTextVariant: 'dark',
-        post_number: 1,
+        post_number: null,
         detail_list: [],
+        detail_category: [],
       }
     },
   created() {
+      this.post_number = this.$route.params.id;
       this.show = true;
       this.fetchDetailList();
+      this.fetch_category();
   },
   methods: {
       doDisplay(){
-        var con = document.getElementById("footer");
-        if(con.style.display=='none'){
-            con.style.display = 'block';
-            this.show = false;
-        }else{
-            con.style.display = 'none';
-        }
+          var con = document.getElementById("footer");
+          if(con.style.display=='none'){
+              con.style.display = 'block';
+              this.show = false;
+          }else{
+              con.style.display = 'none';
+          }
       },
       fetchDetailList() {
-        console.log(this.post_number);
-        const detailURL = 'http://comento.cafe24.com/detail.php?req_no=' + this.post_number
-        this.$http.get(detailURL)
-        .then((response) => {
-          this.detail_list = response.data.detail.article
-          console.log(this.detail_list);
-        }).catch((err) => {
-          console.log("에러입니다." + err)
-        })
-      }      
+          const detailURL = 'http://comento.cafe24.com/detail.php?req_no=' + this.post_number;
+          this.$http.get(detailURL)
+          .then((response) => {
+              this.detail_list = response.data.detail.article
+              console.log(this.detail_list);
+          }).catch((err) => {
+              console.log("에러입니다." + err)
+          })
+      },
+      fetch_category(){
+          const categoryURL = 'https://comento.cafe24.com/category.php';
+          this.$http.get(categoryURL)  // CATEGORY_LIST 불러오기 (apple,banana,coconut)
+          .then((response) => {
+              this.detail_category = response.data.list;
+          }).catch((error) => {
+              console.log(error);
+          });     
+      },      
   }
 }
 </script>
@@ -159,5 +171,12 @@ export default {
     text-align: center;
     color: rgb(0, 0, 0);
     background: rgb(255, 255, 255);
+}
+#Categorybar{
+    display: flex;
+    justify-content: space-between;
+}
+.card-title{
+    padding:10px 10px 0px 15px;
 }
 </style>
